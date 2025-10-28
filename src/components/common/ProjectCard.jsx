@@ -1,9 +1,13 @@
 import { IoLocationSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project , map}) => {
   return (
-    <div className="border border-gray-200 p-4 rounded-2xl flex flex-col items-center text-center gap-4">
+    <div
+      className={`${
+        map ? "":"border"
+      } border-gray-200 p-4 rounded-2xl flex flex-col items-center text-center gap-4`}
+    >
       <div className="w-full h-[250px] rounded-xl overflow-hidden">
         <img
           src={project.image}

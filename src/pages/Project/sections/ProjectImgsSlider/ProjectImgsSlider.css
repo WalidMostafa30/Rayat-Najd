@@ -1,0 +1,40 @@
+/* 🔹 أزرار التنقل */
+.mySwiper2 .swiper-button-next,
+.mySwiper2 .swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+/* 🔹 لون الأيقونة (السهم) */
+.mySwiper2 .swiper-button-next::after,
+.mySwiper2 .swiper-button-prev::after {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 🔹 تأثير hover */
+.mySwiper2 .swiper-button-next:hover,
+.mySwiper2 .swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* 🔹 إخفاء أزرار السلايدر المصغّر */
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  display: none;
+}
+
+/* 🔹 تفعيل الشكل النشط للصور المصغّرة */
+.mySwiper .swiper-slide-thumb-active img {
+  border-color: var(--color-mainClr, #C7A85B);
+  opacity: 1;
+}

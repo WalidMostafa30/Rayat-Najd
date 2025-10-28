@@ -7,7 +7,12 @@ const Home = React.lazy(() => import("../pages/Home/Home"));
 const AllProjects = React.lazy(() =>
   import("../pages/AllProjects/AllProjects")
 );
-const NotFound = React.lazy(() => import("../pages/NotFound/NotFound"));
+const ProjectsMap = React.lazy(() =>
+  import("../pages/ProjectsMap/ProjectsMap")
+);
+const Project = React.lazy(() =>
+  import("../pages/Project/Project")
+);
 
 const router = createBrowserRouter([
   {
@@ -22,9 +27,16 @@ const router = createBrowserRouter([
         path: "all-projects",
         element: <AllProjects />,
       },
+      {
+        path: "projects-map",
+        element: <ProjectsMap />,
+      },
+      {
+        path: "project/:id",
+        element: <Project />,
+      },
     ],
   },
-  { path: "*", element: <NotFound /> },
 ]);
 
 const AppRouter = () => {
