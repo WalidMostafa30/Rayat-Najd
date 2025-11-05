@@ -19,7 +19,7 @@
   }
 
   .titleLine {
-    @apply text-textClr font-bold p-2 cursor-pointer duration-300 relative;
+    @apply text-textClr text-xs font-bold p-1 lg:p-2 cursor-pointer duration-300 relative;
 
     &::after {
       @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-mainClr duration-300;
@@ -36,6 +36,34 @@
   }
 
   .mainBtn {
-    @apply bg-mainClr text-white font-bold py-2 px-6 rounded-lg hover:brightness-90 duration-300;
+    @apply bg-mainClr text-white font-bold text-xs py-2 px-4 rounded-lg cursor-pointer hover:brightness-90 duration-300;
+  }
+}
+
+/* 🌈 Custom Scrollbar */
+@layer utilities {
+  /* للمتصفحات المبنية على Webkit (Chrome, Edge, Safari) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* 🔹 إخفاء الأسهم (الأزرار) من الـ scrollbar */
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-200 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-mainClr rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-yellow-600;
   }
 }

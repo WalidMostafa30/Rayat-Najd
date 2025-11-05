@@ -1,75 +1,17 @@
-import { useParams } from "react-router-dom";
-import projectImg from "../../assets/images/project-img.jpg";
 import ProjectImgsSlider from "./sections/ProjectImgsSlider/ProjectImgsSlider";
 import { IoLocationSharp } from "react-icons/io5";
 import { useState } from "react";
-import { CiRuler } from "react-icons/ci";
-import { TbBuildings } from "react-icons/tb";
-import { FcIdea } from "react-icons/fc";
 import GoogleMapView from "../../components/layouts/GoogleMapView/GoogleMapView";
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxTable } from "react-icons/rx";
 import Plans from "./sections/Plans";
 import FloorPlans from "./sections/FloorPlans";
+import { useSelector } from "react-redux";
 
-const Project = () => {
-  const { id } = useParams();
-  const projectItem = {
-    id,
-    title: `مشروع رايات نجد ${id}`,
-    location: "شرق الرياض، حي النرجس",
-    images: Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      src: projectImg,
-    })),
-    details: {
-      area: "5023",
-      units_type: "سكنية",
-      units_number: 120,
-      units_area: "190 - 250",
-      status: "قيد الإنشاء",
-    },
-    plans: Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      title: `الدور ${i + 1}`,
-      src: projectImg,
-    })),
-    floor_plans: Array.from({ length: 20 }, (_, i) => ({
-      id: i + 1,
-      title: `شقة نموذج ${i + 1}`,
-      src: projectImg,
-    })),
-    description:
-      "مشروع رايات نجد 8 مصمم بأسلوب عصري مميز يوفر لك المزيد من الأمان والرفاهية. يقع المشروع في مكان حيوي شمال الرياض بالقرب من كل المرافق الأساسية والترفيهية، مدارس، مراكز رعاية صحية، شاليهات، مطاعم ومقاهي.",
-  };
+const Project = ({ projects }) => {
+  const { id } = useSelector((state) => state.main);
 
-  const projectDetails = [
-    {
-      label: "مساحة الأرض",
-      icon: <CiRuler />,
-      value: projectItem.details.area,
-    },
-    {
-      label: "نوع الوحدات",
-      icon: <TbBuildings />,
-      value: projectItem.details.units_type,
-    },
-    {
-      label: "عدد الوحدات",
-      icon: <TbBuildings />,
-      value: projectItem.details.units_number,
-    },
-    {
-      label: "مساحة الوحدات",
-      icon: <CiRuler />,
-      value: projectItem.details.units_area,
-    },
-    {
-      label: "حالة المشروع",
-      icon: <FcIdea />,
-      value: projectItem.details.status,
-    },
-  ];
+  const projectItem = projects.find((project) => project.id === id);
 
   const sections = [
     { value: "about", title: "عن المشروع" },
@@ -81,17 +23,17 @@ const Project = () => {
   const [currentSection, setCurrentSection] = useState("about");
 
   return (
-    <section className="grid grid-cols-1 xl:grid-cols-5 gap-8">
-      <aside className="xl:col-span-2 space-y-4">
-        <h2 className="text-2xl text-black font-bold relative z-10 bg-white xl:pe-4">
-          {projectItem.title}
+    <section className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-4">
+      <aside className="md:col-span-2 space-y-2">
+        <h2 className="text-xl text-black font-bold relative z-10 bg-white lg:pe-4">
+          {projectItem?.name}
         </h2>
-        <p className="text-mainClr text-lg flex gap-1">
-          <IoLocationSharp className="text-textClr text-xl mt-1" />
-          {projectItem.location}
+        <p className="text-mainClr text-sm flex gap-1">
+          <IoLocationSharp className="text-textClr mt-1" />
+          {projectItem?.address}
         </p>
 
-        <ProjectImgsSlider images={projectItem.images} />
+        <ProjectImgsSlider images={projectItem?.images} />
 
         <nav className="flex items-center justify-between gap-2 py-2 border-t border-gray-300">
           {sections.map((section) => (
@@ -100,7 +42,7 @@ const Project = () => {
               onClick={() => setCurrentSection(section.value)}
               className={`${
                 currentSection === section.value ? "active" : ""
-              } titleLine`}
+              } titleLine text-[10px]!`}
             >
               {section.title}
             </button>
@@ -108,43 +50,57 @@ const Project = () => {
         </nav>
 
         {currentSection === "details" ? (
-          <div className="p-2 border border-gray-300 rounded-lg flex flex-wrap">
-            {projectDetails.map((detail, index) => (
+          <div className="p-1 border border-gray-300 rounded-lg flex flex-wrap">
+            {projectItem?.project_details.map((detail, index) => (
               <div
                 key={index}
-                className="flex-1 min-w-max flex flex-col items-center justify-between gap-1 p-2 text-mainClr"
+                className="flex-1 min-w-max flex flex-col items-center justify-between gap-1 p-1 text-mainClr"
               >
-                <span className="text-xl">{detail.icon}</span>
-                <p className="text-xs text-gray-400">{detail.label}</p>
-                <p>{detail.value}</p>
+                <img src={detail.icon} alt={detail.label} className="w-6 h-6 object-contain" />
+                <p className="text-[10px] text-gray-400">{detail.title}</p>
+                <p className="text-[10px]">{detail.description}</p>
               </div>
             ))}
           </div>
+        ) : currentSection === "about" ? (
+          <p className="text-xs">{projectItem.about_text}</p>
+        ) : currentSection === "plans" ? (
+          <p className="text-xs">{projectItem.apartment_models_text}</p>
         ) : (
-          <p>{projectItem.description}</p>
+          <p className="text-xs">{projectItem.floor_text}</p>
         )}
 
-        <div className="flex items-center gap-4">
-          <button className="px-4 py-1 rounded-lg border flex items-center gap-2 cursor-pointer">
-            <RxTable size={20} />
+        <div className="flex items-center gap-2">
+          <a
+            href={projectItem.units_table}
+            target="_blank"
+            className="text-xs px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
+          >
+            <RxTable size={16} />
             جدول الوحدات
-          </button>
-          <button className="px-4 py-1 rounded-lg border flex items-center gap-2 cursor-pointer">
-            <FaRegFileAlt size={20} />
+          </a>
+          <a
+            href={projectItem.project_brochure}
+            target="_blank"
+            className="text-xs px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
+          >
+            <FaRegFileAlt size={16} />
             بروشور المشروع
-          </button>
+          </a>
         </div>
       </aside>
 
-      <div className="xl:col-span-3 border border-gray-300 rounded-2xl overflow-hidden bg-white h-full">
+      <div className="md:col-span-3 lg:col-span-4 border border-gray-300 rounded-2xl overflow-hidden bg-white h-full">
         {(currentSection === "about" || currentSection === "details") && (
           <div className="min-h-[500px] h-full">
             <GoogleMapView />
           </div>
         )}
-        {currentSection === "plans" && <Plans data={projectItem.plans} />}
+        {currentSection === "plans" && (
+          <Plans data={projectItem.project_apartment_models} />
+        )}
         {currentSection === "floorPlans" && (
-          <FloorPlans data={projectItem.floor_plans} />
+          <FloorPlans data={projectItem.project_floors} />
         )}
       </div>
     </section>

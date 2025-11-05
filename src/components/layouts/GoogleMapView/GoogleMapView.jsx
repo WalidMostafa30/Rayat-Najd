@@ -1,12 +1,13 @@
 import {
   GoogleMap,
   Marker,
-  InfoWindow,
+  OverlayView,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useState } from "react";
-import projectImg from "../../../assets/images/project-img.jpg";
-import ProjectCard from "../../common/ProjectCard";
+import { useMemo } from "react";
+import MapProjectCard from "../../common/MapProjectCard";
+import { useSelector } from "react-redux";
+import LoadingSection from "../../Loading/LoadingSection";
 
 const containerStyle = {
   width: "100%",
@@ -14,67 +15,95 @@ const containerStyle = {
   borderRadius: "12px",
 };
 
-const center = { lat: 24.7136, lng: 46.6753 }; // وسط الرياض
+export default function GoogleMapView({ projects = [] }) {
+  const { data } = useSelector((state) => state.data);
+  const projectsList = useMemo(() => {
+    return projects?.length ? projects : data || [];
+  }, [projects, data]);
 
-const projects = [
-  {
-    id: 1,
-    title: "مشروع رايات نجد 1",
-    location: "شرق الرياض، حي النرجس",
-    image: projectImg,
-    position: { lat: 24.796, lng: 46.72 },
-  },
-  {
-    id: 2,
-    title: "مشروع رايات نجد 2",
-    location: "شمال الرياض، حي الياسمين",
-    image: projectImg,
-    position: { lat: 24.805, lng: 46.705 },
-  },
-  {
-    id: 3,
-    title: "مشروع رايات نجد 3",
-    location: "غرب الرياض، حي لبن",
-    image: projectImg,
-    position: { lat: 24.695, lng: 46.61 },
-  },
-  {
-    id: 4,
-    title: "مشروع رايات نجد 4",
-    location: "جنوب الرياض، حي العزيزية",
-    image: projectImg,
-    position: { lat: 24.58, lng: 46.78 },
-  },
-];
-
-export default function GoogleMapView() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBuFc-F9K_-1QkQnLoTIecBlNz6LfCS1wg", 
+    googleMapsApiKey: "AIzaSyBuFc-F9K_-1QkQnLoTIecBlNz6LfCS1wg",
   });
 
-  const [activeMarker, setActiveMarker] = useState(null);
+  // ✅ نحدد مركز الخريطة بأمان
+  const center = useMemo(() => {
+    if (projectsList.length > 0) {
+      const first = projectsList.find(
+        (p) =>
+          Number(p.latitude) &&
+          !isNaN(Number(p.latitude)) &&
+          Number(p.longitude) &&
+          !isNaN(Number(p.longitude))
+      );
+      if (first) {
+        return {
+          lat: Number(first.latitude),
+          lng: Number(first.longitude),
+        };
+      }
+    }
+    return { lat: 24.7136, lng: 46.6753 }; // الرياض
+  }, [projectsList]);
 
-  if (!isLoaded) return <div>جارٍ تحميل الخريطة...</div>;
+  if (!isLoaded) return <LoadingSection />;
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
-      {projects.map((proj) => (
-        <Marker
-          key={proj.id}
-          position={proj.position}
-          onClick={() => setActiveMarker(proj.id)}
-          icon={{
-            url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-            scaledSize: new window.google.maps.Size(40, 40),
-          }}
-        >
-          {activeMarker === proj.id && (
-            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-              <ProjectCard project={proj} map={true} />
-            </InfoWindow>
-          )}
-        </Marker>
-      ))}
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      options={{
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+      }}
+    >
+      {projectsList
+        .filter(
+          (proj) =>
+            Number(proj.latitude) &&
+            !isNaN(Number(proj.latitude)) &&
+            Number(proj.longitude) &&
+            !isNaN(Number(proj.longitude))
+        )
+        .map((proj) => (
+          <div key={proj.id}>
+            {/* الماركر الدائري */}
+            <Marker
+              position={{
+                lat: Number(proj.latitude),
+                lng: Number(proj.longitude),
+              }}
+              icon={{
+                path: window.google?.maps?.SymbolPath?.CIRCLE || 0,
+                fillColor: "#9c6c17",
+                fillOpacity: 0.5,
+                scale: 10,
+                strokeColor: "#9c6c17",
+                strokeWeight: 6,
+              }}
+            />
+
+            {/* الكارد فوق الماركر */}
+            <OverlayView
+              position={{
+                lat: Number(proj.latitude),
+                lng: Number(proj.longitude),
+              }}
+              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+            >
+              <div
+                style={{
+                  transform: "translate(50%, -110%)",
+                  minWidth: "150px",
+                  zIndex: 10,
+                }}
+              >
+                <MapProjectCard project={proj} map={true} />
+              </div>
+            </OverlayView>
+          </div>
+        ))}
     </GoogleMap>
   );
 }

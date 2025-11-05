@@ -5,9 +5,9 @@ const FloorPlans = ({ data }) => {
 
   return (
     <div className="p-4 flex flex-col items-center justify-center gap-4 h-full">
-      <div className="h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden">
+      <div className="relative w-full h-[250px] md:[300px] overflow-hidden rounded-lg">
         <img
-          src={data[currentPlan].src}
+          src={data[currentPlan].image}
           alt={`Floor Plan ${currentPlan + 1}`}
           className="w-full h-full object-contain"
         />
@@ -18,7 +18,7 @@ const FloorPlans = ({ data }) => {
           <span
             key={index}
             onClick={() => setCurrentPlan(index)}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer transition ${
+            className={`w-6 h-6 text-xs flex items-center justify-center rounded-lg cursor-pointer transition ${
               currentPlan === index
                 ? "bg-mainClr text-white"
                 : "bg-gray-100 hover:bg-gray-200"

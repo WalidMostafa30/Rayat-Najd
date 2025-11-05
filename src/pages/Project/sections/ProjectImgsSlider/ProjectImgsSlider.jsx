@@ -5,7 +5,7 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import "./ProjectImgsSlider.css"; 
+import "./ProjectImgsSlider.css";
 
 const ProjectImgsSlider = ({ images }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -28,9 +28,9 @@ const ProjectImgsSlider = ({ images }) => {
         {images.map((img) => (
           <SwiperSlide key={img.id}>
             <img
-              src={img.src}
+              src={img}
               alt="project"
-              className="w-full h-[250px] 2xl:h-[300px] object-cover"
+              className="w-full h-[230px] md:h-[180px] xl:h-[230px] object-cover"
             />
           </SwiperSlide>
         ))}
@@ -40,20 +40,20 @@ const ProjectImgsSlider = ({ images }) => {
       <Swiper
         onSwiper={setThumbsSwiper}
         loop={true}
-        spaceBetween={10}
+        spaceBetween={5}
         slidesPerView={images.length >= 3 ? 3 : images.length}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Thumbs]}
-        className="mySwiper mt-4"
+        className="mySwiper mt-2"
       >
-        {images.map((img) => (
-          <SwiperSlide key={img.id}>
+        {images.map((img, index) => (
+          <SwiperSlide key={index}>
             <div className="relative cursor-pointer group">
               <img
-                src={img.src}
+                src={img}
                 alt="thumb"
-                className="w-full h-20 object-cover rounded-lg border-2 border-transparent 
+                className="w-full h-[80px] md:h-[60px] object-cover rounded-lg border-2 border-transparent 
                 group-hover:border-mainClr opacity-70 group-hover:opacity-100 transition-all duration-300"
               />
             </div>

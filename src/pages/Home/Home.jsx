@@ -1,9 +1,7 @@
-const Home = () => {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Home Page</h1>
-    </div>
-  );
+import AllProjects from "../AllProjects/AllProjects";
+
+const Home = ({ projects }) => {
+  return <AllProjects projects={projects} />;
 };
 
 export default Home;
