@@ -7,7 +7,7 @@ const Loader = () => {
         <div className="w-3 bg-mainClr animate-[grow_1s_ease-in-out_infinite_0.4s]" />
         <div className="w-3 bg-mainClr animate-[grow_1s_ease-in-out_infinite_0.6s]" />
       </div>
-      <h2 className="text-lg lg:text-2xl font-semibold text-mainClr mt-4">
+      <h2 className="text-lg font-semibold text-mainClr mt-4">
         جاري التحميل ...
       </h2>
 
