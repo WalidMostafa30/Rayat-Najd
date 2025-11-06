@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-const Plans = ({ data }) => {
+const Plans = ({ data = [] }) => {
   const [currentPlan, setCurrentPlan] = useState(0);
 
   return (
     <div className="p-2 flex flex-col items-center justify-center gap-4 h-full">
       <div className="relative w-full h-[250px] md:[300px] overflow-hidden rounded-lg">
         <img
-          src={data[currentPlan].image}
+          src={data[currentPlan] && data[currentPlan].image}
           alt={`Floor Plan ${currentPlan + 1}`}
           className="absolute inset-0 w-full max-w-[70%] mx-auto h-full object-contain"
         />

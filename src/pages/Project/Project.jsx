@@ -97,7 +97,7 @@ const Project = ({ projects }) => {
           </div>
         )}
         {currentSection === "plans" && (
-          <Plans data={projectItem.project_apartment_models} />
+          <Plans data={projectItem?.project_apartment_models} />
         )}
         {currentSection === "floorPlans" && (
           <FloorPlans data={projectItem.project_floors} />

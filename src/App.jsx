@@ -5,7 +5,7 @@ import Home from "./pages/Home/Home";
 import ProjectsMap from "./pages/ProjectsMap/ProjectsMap";
 import Project from "./pages/Project/Project";
 import { useEffect } from "react";
-import { fetchData } from "./store/dataSlice";
+import { fetchData, setupNetworkListener } from "./store/dataSlice";
 import LoadingSection from "./components/Loading/LoadingSection";
 
 function App() {
@@ -14,7 +14,11 @@ function App() {
   const { page, id } = useSelector((state) => state.main);
 
   useEffect(() => {
+    // أول تحميل
     dispatch(fetchData());
+
+    // تشغيل مراقب حالة الإنترنت
+    setupNetworkListener(dispatch);
   }, [dispatch]);
 
   const renderPage = () => {
