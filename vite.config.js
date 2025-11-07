@@ -12,36 +12,45 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: [
-        "favicon.svg",
-        "favicon.ico",
-        "robots.txt",
-        "apple-touch-icon.png",
-      ],
+      includeAssets: ["logo-fav.png"],
       manifest: {
         name: "Rayat Najd",
-        short_name: "RayatNajd",
-        description: "مشاريع رايات نجد",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        short_name: "Rayat",
+        start_url: ".",
         display: "standalone",
-        start_url: "/",
+        background_color: "#ffffff",
+        theme_color: "#ffffff",
+        description: "تطبيق Rayat Najd التجريبي للعمل أوفلاين.",
         icons: [
           {
-            src: "/pwa-192x192.png",
+            src: "logo-fav.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/pwa-512x512.png",
+            src: "logo-fav.png",
             sizes: "512x512",
             type: "image/png",
           },
+        ],
+      },
+      workbox: {
+        runtimeCaching: [
           {
-            src: "/pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
+            urlPattern: /^https:\/\/.*\/api\/.*$/, // لتخزين بيانات API في الكاش
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "api-cache",
+              expiration: { maxEntries: 20, maxAgeSeconds: 3600 },
+            },
+          },
+          {
+            urlPattern: ({ request }) => request.destination === "image",
+            handler: "CacheFirst",
+            options: {
+              cacheName: "image-cache",
+              expiration: { maxEntries: 50, maxAgeSeconds: 86400 },
+            },
           },
         ],
       },
