@@ -41,7 +41,7 @@ function App() {
   };
 
   return (
-    <main className="container py-4 h-screen flex flex-col overflow-hidden">
+    <main className="container py-4 h-[100dvh] flex flex-col overflow-hidden">
       <Header />
 
       <section className="flex-1 flex gap-4 overflow-hidden pb-10 sm:pb-0">
