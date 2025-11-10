@@ -26,7 +26,7 @@ const SideBar = () => {
         <button
           key={index}
           onClick={() => dispatch(setPage(item.slug))}
-          className={`text-2xl transition cursor-pointer ${
+          className={`text-2xl xl:text-3xl transition cursor-pointer ${
             page === item.slug
               ? "text-mainClr"
               : "text-gray-500 hover:text-mainClr"

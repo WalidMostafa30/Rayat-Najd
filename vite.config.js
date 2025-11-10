@@ -12,32 +12,34 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["logo-fav.png"],
-      manifest: {
-        name: "Rayat Najd",
-        short_name: "Rayat",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#ffffff",
-        description: "تطبيق Rayat Najd التجريبي للعمل أوفلاين.",
-        icons: [
-          {
-            src: "logo-fav.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "logo-fav.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
-      },
+	      manifest: false,
+	      includeAssets: ["manifest.webmanifest", "logo-fav.png", "192.png", "512.png"],
+	      devOptions: {
+	        enabled: false,
+	      },
       workbox: {
+	        navigateFallback: "/index.html", 
         runtimeCaching: [
+	          // Google Fonts stylesheets
+	          {
+	            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+	            handler: "StaleWhileRevalidate",
+	            options: {
+	              cacheName: "google-fonts-stylesheets",
+	            },
+	          },
+	          // Google Fonts webfont files
+	          {
+	            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+	            handler: "CacheFirst",
+	            options: {
+	              cacheName: "google-fonts-webfonts",
+	              cacheableResponse: { statuses: [0, 200] },
+	              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
+	            },
+	          },
           {
-            urlPattern: /^https:\/\/.*\/api\/.*$/, // لتخزين بيانات API في الكاش
+	            urlPattern: /^https:\/\/.*\/api\/.*$/,
             handler: "NetworkFirst",
             options: {
               cacheName: "api-cache",
@@ -48,8 +50,9 @@ export default defineConfig({
             urlPattern: ({ request }) => request.destination === "image",
             handler: "CacheFirst",
             options: {
-              cacheName: "image-cache",
-              expiration: { maxEntries: 50, maxAgeSeconds: 86400 },
+	              cacheName: "image-cache",
+	              cacheableResponse: { statuses: [0, 200] },
+	              expiration: { maxEntries: 50, maxAgeSeconds: 86400 },
             },
           },
         ],

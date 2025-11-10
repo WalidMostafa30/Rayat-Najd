@@ -5,7 +5,7 @@ const FloorPlans = ({ data }) => {
 
   return (
     <div className="p-4 flex flex-col items-center justify-center gap-4 h-full">
-      <div className="relative w-full h-[250px] md:[300px] overflow-hidden rounded-lg">
+      <div className="relative w-full h-[250px] md:h-[300px] xl:h-[500px] overflow-hidden rounded-lg">
         <img
           src={data[currentPlan].image}
           alt={`Floor Plan ${currentPlan + 1}`}

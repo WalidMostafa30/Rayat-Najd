@@ -53,7 +53,7 @@ const ProjectImgsSlider = ({ images }) => {
               <img
                 src={img}
                 alt="thumb"
-                className="w-full h-[80px] md:h-[60px] object-cover rounded-lg border-2 border-transparent 
+                className="w-full h-20 md:h-[60px] 2xl:h-20 object-cover rounded-lg border-2 border-transparent 
                 group-hover:border-mainClr opacity-70 group-hover:opacity-100 transition-all duration-300"
               />
             </div>

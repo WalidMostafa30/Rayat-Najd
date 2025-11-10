@@ -19,7 +19,7 @@
   }
 
   .titleLine {
-    @apply text-textClr text-xs font-bold p-1 lg:p-2 cursor-pointer duration-300 relative;
+    @apply text-textClr text-xs xl:text-base font-bold p-1 lg:p-2 cursor-pointer duration-300 relative;
 
     &::after {
       @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-mainClr duration-300;

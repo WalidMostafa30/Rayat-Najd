@@ -25,10 +25,10 @@ const Project = ({ projects }) => {
   return (
     <section className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-4">
       <aside className="md:col-span-2 space-y-2">
-        <h2 className="text-xl text-black font-bold relative z-10 bg-white lg:pe-4">
+        <h2 className="text-xl xl:text-2xl text-black font-bold relative z-10 bg-white lg:pe-4">
           {projectItem?.name}
         </h2>
-        <p className="text-mainClr text-sm flex gap-1">
+        <p className="text-mainClr text-sm xl:text-base flex gap-1">
           <IoLocationSharp className="text-textClr mt-1" />
           {projectItem?.address}
         </p>
@@ -42,7 +42,7 @@ const Project = ({ projects }) => {
               onClick={() => setCurrentSection(section.value)}
               className={`${
                 currentSection === section.value ? "active" : ""
-              } titleLine text-[10px]!`}
+              } titleLine text-[10px]! xl:text-sm!`}
             >
               {section.title}
             </button>
@@ -56,37 +56,49 @@ const Project = ({ projects }) => {
                 key={index}
                 className="flex-1 min-w-max flex flex-col items-center justify-between gap-1 p-1 text-mainClr"
               >
-                <img src={detail.icon} alt={detail.label} className="w-6 h-6 object-contain" />
-                <p className="text-[10px] text-gray-400">{detail.title}</p>
-                <p className="text-[10px]">{detail.description}</p>
+                <img
+                  src={detail.icon}
+                  alt={detail.label}
+                  className="w-6 h-6 xl:w-8 xl:h-8 object-contain"
+                />
+                <p className="text-[10px] xl:text-sm text-gray-400">
+                  {detail.title}
+                </p>
+                <p className="text-[10px] xl:text-sm">{detail.description}</p>
               </div>
             ))}
           </div>
         ) : currentSection === "about" ? (
-          <p className="text-xs">{projectItem.about_text}</p>
+          <p className="text-xs xl:text-base">{projectItem.about_text}</p>
         ) : currentSection === "plans" ? (
-          <p className="text-xs">{projectItem.apartment_models_text}</p>
+          <p className="text-xs xl:text-base">
+            {projectItem.apartment_models_text}
+          </p>
         ) : (
-          <p className="text-xs">{projectItem.floor_text}</p>
+          <p className="text-xs xl:text-base">{projectItem.floor_text}</p>
         )}
 
         <div className="flex items-center gap-2">
-          <a
-            href={projectItem.units_table}
-            target="_blank"
-            className="text-xs px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
-          >
-            <RxTable size={16} />
-            جدول الوحدات
-          </a>
-          <a
-            href={projectItem.project_brochure}
-            target="_blank"
-            className="text-xs px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
-          >
-            <FaRegFileAlt size={16} />
-            بروشور المشروع
-          </a>
+          {projectItem.units_table && (
+            <a
+              href={projectItem.units_table}
+              target="_blank"
+              className="text-xs xl:text-base px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
+            >
+              <RxTable size={16} />
+              جدول الوحدات
+            </a>
+          )}
+          {projectItem.project_brochure && (
+            <a
+              href={projectItem.project_brochure}
+              target="_blank"
+              className="text-xs xl:text-base px-2 py-1 rounded-lg border flex items-center gap-2 cursor-pointer"
+            >
+              <FaRegFileAlt size={16} />
+              بروشور المشروع
+            </a>
+          )}
         </div>
       </aside>
 

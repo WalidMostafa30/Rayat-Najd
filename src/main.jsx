@@ -11,9 +11,11 @@ createRoot(document.getElementById("root")).render(
   </Provider>
 );
 
-registerSW({
-  onNeedRefresh() {},
-  onOfflineReady() {
-    console.log("التطبيق جاهز للعمل أوفلاين ✅");
-  },
-});
+if (import.meta.env.PROD) {
+  registerSW({
+    onNeedRefresh() {},
+    onOfflineReady() {
+      console.log("التطبيق جاهز للعمل أوفلاين ✅");
+    },
+  });
+}
