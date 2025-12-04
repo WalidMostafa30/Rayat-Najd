@@ -13,7 +13,7 @@ const SideBar = () => {
     { slug: "home", icon: <GoHomeFill /> },
     { slug: "map", icon: <FaMap /> },
     { slug: "project", icon: <MdHomeWork /> },
-    { slug: "chat", icon: <IoChatbubbles /> },
+    { slug: "contact", icon: <IoChatbubbles /> },
   ];
 
   return (

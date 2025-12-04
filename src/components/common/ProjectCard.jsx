@@ -20,10 +20,10 @@ const ProjectCard = ({ project, map }) => {
 
       <h2 className="text-black font-bold line-clamp-1">{project.name}</h2>
 
-      <p className="line-clamp-2 text-mainClr text-xs flex justify-center gap-1">
+      <div className="line-clamp-2 text-mainClr text-xs flex justify-center gap-1">
         <IoLocationSharp className="text-textClr text-lg" />
-        {project.address}
-      </p>
+        <p className="flex-1"> {project.address}</p>
+      </div>
 
       <button
         onClick={() => {

@@ -7,6 +7,7 @@ import Project from "./pages/Project/Project";
 import { useEffect } from "react";
 import { fetchData, setupNetworkListener } from "./store/dataSlice";
 import LoadingSection from "./components/Loading/LoadingSection";
+import Contact from "./pages/Contact/Contact";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,21 +34,26 @@ function App() {
         ) : (
           <Home projects={data} />
         );
-      case "chat":
-        return <Home projects={data} />;
+      case "contact":
+        return <Contact />;
       default:
         return null;
     }
   };
 
   return (
-    <main className="container py-4 h-[100dvh] flex flex-col overflow-hidden">
+    <main className="container py-4 h-dvh flex flex-col overflow-hidden">
       <Header />
-
       <section className="flex-1 flex gap-4 overflow-hidden pb-10 sm:pb-0">
         <SideBar />
 
-        <article className="flex-1 h-full bg-white rounded-4xl px-2 py-4 lg:px-2 lg:py-6 shadow-lg border border-gray-200">
+        <article
+          className={`flex-1 h-full py-4 lg:py-6 ${
+            page !== "contact"
+              ? "bg-white rounded-4xl px-2 lg:px-2 shadow-lg border border-gray-200"
+              : ""
+          }`}
+        >
           <div className="h-full overflow-y-auto px-2">
             {loading ? (
               <LoadingSection />
