@@ -16,13 +16,13 @@ const containerStyle = {
 };
 
 export default function GoogleMapView({ projects = [] }) {
-  const { data } = useSelector((state) => state.data);
+  const { data, settings } = useSelector((state) => state.data);
   const projectsList = useMemo(() => {
     return projects?.length ? projects : data || [];
   }, [projects, data]);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBuFc-F9K_-1QkQnLoTIecBlNz6LfCS1wg",
+    googleMapsApiKey: settings?.google_key || "",
   });
 
   // ✅ نحدد مركز الخريطة بأمان

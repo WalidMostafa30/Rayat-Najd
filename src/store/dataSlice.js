@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// 🔥 اجلب ال URL من env
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 // ✅ جلب البيانات من الـ API أو من localStorage في حالة عدم وجود إنترنت
 export const fetchData = createAsyncThunk(
   "data/fetchData",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        "https://projectsmap.quick2tech.online/getData"
-      );
+      const { data } = await axios.get(`${BASE_URL}/getData`);
 
       // ✅ تخزين البيانات في localStorage بعد نجاح الجلب
       localStorage.setItem("projectsData", JSON.stringify(data));
@@ -20,7 +21,6 @@ export const fetchData = createAsyncThunk(
         "⚠️ لم يتم الاتصال بالإنترنت، سيتم استخدام البيانات المخزنة محليًا."
       );
 
-      // ✅ محاولة استرجاع البيانات من localStorage
       const storedData = localStorage.getItem("projectsData");
 
       if (storedData) {
@@ -28,7 +28,6 @@ export const fetchData = createAsyncThunk(
         return JSON.parse(storedData);
       }
 
-      // ❌ في حالة عدم وجود بيانات مخزنة مسبقًا
       return thunkAPI.rejectWithValue(
         error.response?.data || "حدث خطأ أثناء جلب المشاريع"
       );
@@ -38,6 +37,7 @@ export const fetchData = createAsyncThunk(
 
 const initialState = {
   data: [],
+  settings: {},
   loading: false,
   error: null,
   isOnline: true,
@@ -59,8 +59,10 @@ const dataSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchData.fulfilled, (state, action) => {
+        const { settings, data } = action.payload;
         state.loading = false;
-        state.data = action.payload;
+        state.data = data;
+        state.settings = settings;
         state.isOnline = localStorage.getItem("isOnline") === "true";
       })
       .addCase(fetchData.rejected, (state, action) => {
@@ -79,7 +81,7 @@ export const setupNetworkListener = (dispatch) => {
   window.addEventListener("online", () => {
     console.log("✅ تم استرجاع الاتصال بالإنترنت");
     dispatch(setOnlineStatus(true));
-    dispatch(fetchData()); // ⚡️ إعادة تحميل البيانات تلقائيًا
+    dispatch(fetchData());
   });
 
   window.addEventListener("offline", () => {

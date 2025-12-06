@@ -48,7 +48,7 @@ const ProjectsMap = ({ projects = [] }) => {
       </div>
 
       {/* 🔹 الخريطة تاخد المساحة الباقية */}
-      <div className="flex-1 overflow-hidden rounded-xl">
+      <div className="flex-1 overflow-hidden rounded-xl min-h-[700px]">
         <GoogleMapView projects={filteredProjects} />
       </div>
     </section>
